@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\QuestionnaireController;
+use App\Http\Controllers\SubmissionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +16,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::resource('questionnaires', QuestionnaireController::class, [
+    'only' => ['index', 'show']
+]);
+
+Route::resource('submissions', SubmissionController::class, [
+    'only' => ['index', 'show', 'store']
+]);
+
+require __DIR__ . '/auth.php';
