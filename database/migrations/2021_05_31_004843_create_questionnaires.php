@@ -15,7 +15,11 @@ class CreateQuestionnaires extends Migration
     {
         Schema::create('questionnaires', function (Blueprint $table) {
             $table->id();
+            $table->integer('questionnaire_id')->nullable(false);
+            $table->foreignId('question_id')->references('id')->on('questions');
+            $table->boolean('required');
             $table->timestamps();
+            $table->unique(['questionnaire_id', 'question_id']);
         });
     }
 

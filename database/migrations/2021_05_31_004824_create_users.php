@@ -14,8 +14,15 @@ class CreateUsers extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('subject_id')->primary()->comment('The major login method.');
+            $table->string('password');
+            $table->string('role')->nullable();
+            $table->integer('test_chamber')->nullable();
+            $table->dateTimeTz('date_of_birth')->nullable();
+            $table->integer('total_score')->nullable();
+            $table->boolean('alive')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

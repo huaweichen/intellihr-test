@@ -15,6 +15,9 @@ class CreateQuestions extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
+            $table->string('label');
+            $table->string('type');
+            $table->jsonb('options')->nullable()->comment('Nullable for non-selectable questions.');
             $table->timestamps();
         });
     }

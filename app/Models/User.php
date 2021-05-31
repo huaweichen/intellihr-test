@@ -2,42 +2,46 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
-class User extends Authenticatable
+class User extends Model implements Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, AuthenticatableTrait, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $primaryKey = 'subject_id';
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $keyType = 'string';
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
+    public $incrementing = false;
+
+    public $guarded = [];
+
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'date_of_birth' => 'datetime',
+        'alive' => 'boolean',
     ];
+
+    protected $fillable = [
+        'username',
+        'password',
+        'role',
+        'test_chamber',
+        'date_of_birth',
+        'total_score',
+        'alive',
+    ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->{$user->primaryKey} = $user->role === 'GLaDOS' ? 'GLaDOS' : Str::uuid();
+        });
+    }
 }

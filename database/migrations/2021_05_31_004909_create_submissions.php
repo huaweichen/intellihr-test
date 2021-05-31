@@ -15,7 +15,14 @@ class CreateSubmissions extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
+            $table->integer('submission_id')->nullable(false);
+            $table->dateTimeTz('date')->comment('Actually is date and time with timezone, but respect the data.json.');
+            $table->foreignUuid('user_subject_id')->references('subject_id')->on('users');
+            $table->integer('questionnaire_id');
+            $table->foreignId('question_id')->references('id')->on('questions');
+            $table->string('response')->nullable()->comment('The response to each question in each questionnaire.');
             $table->timestamps();
+            $table->unique(['submission_id', 'user_subject_id', 'questionnaire_id', 'question_id'], 'unique_submission');
         });
     }
 
