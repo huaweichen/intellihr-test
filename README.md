@@ -40,3 +40,12 @@ You should restrict your submission to around 3 hours of work.  If you do not co
 Demo data can be found in adjacent file, data.json.
 
 You may alter, delete, or add to this data in any way you see fit. It is only included here as a convenience to get you started.  It should not be taken as structure or requirement at all.
+
+### Start
+
+Run `./start.sh`.
+
+Login details:
+
+* User: `GLaDOS` | Password: `password`
+* All other users seeded | Password: `password`
